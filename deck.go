@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // create a new type of 'deck'
@@ -34,6 +36,16 @@ func (d deck) print() {
 
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:]
+}
+
+func (d deck) shuffle() {
+	s := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(s)
+
+	for i := range d {
+		p := r.Intn(len(d) - 1)
+		d[i], d[p] = d[p], d[i]
+	}
 }
 
 func (d deck) toString() string {
