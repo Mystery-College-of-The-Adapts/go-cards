@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestNewDeck(t *testing.T) {
 	d := newDeck()
@@ -18,6 +20,11 @@ func TestNewDeck(t *testing.T) {
 	}
 }
 
+func TestPrint(t *testing.T) {
+	d := newDeck()
+	d.print()
+}
+
 func TestDeal(t *testing.T) {
 	d := newDeck()
 	draw := 5
@@ -29,6 +36,16 @@ func TestDeal(t *testing.T) {
 
 	if len(d) != (52 - draw) {
 		t.Errorf("Expected deck length to be 47 but got %v", len(d))
+	}
+}
+
+func TestShuffle(t *testing.T) {
+	d := newDeck()
+	e := newDeck()
+	e.shuffle()
+
+	if d[0] == e[0] {
+		t.Errorf("Expected first card to be random but got %v for both decks", d[0])
 	}
 }
 
