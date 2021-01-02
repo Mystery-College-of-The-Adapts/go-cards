@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
@@ -61,6 +62,23 @@ func TestToString(t *testing.T) {
 	}
 }
 
-func TestSaveToDeckAndNewDeckTestFromFile(t *testing.T) {
+func TestSaveToFileAndNewDeckFromFile(t *testing.T) {
+	f := "_decktest"
+	os.Remove(f)
+	d := newDeck()
+	d.saveToFile(f)
+	nd := newDeckFromFile(f)
+
+	l := len(nd)
+	if l != 52 {
+		t.Errorf("Expected deck length to be 52 but got %v", l)
+	}
+
+	os.Remove(f)
+
+	nd = newDeckFromFile("_decktesting")
+	if nd != nil {
+		t.Error("Expected deck to be nil")
+	}
 
 }
