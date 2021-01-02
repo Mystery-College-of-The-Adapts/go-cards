@@ -1,22 +1,26 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
 func TestNewDeck(t *testing.T) {
 	d := newDeck()
 
-	if len(d) != 52 {
-		t.Errorf("Expected deck length to be 52 but got %v", len(d))
+	l := len(d)
+	if l != 52 {
+		t.Errorf("Expected deck length to be 52 but got %v", l)
 	}
 
-	if d[0] != "Ace of Spades" {
-		t.Errorf("Expected first card to be Ace of Spaces but got %v", d[0])
+	fc := d[0]
+	if fc != "Ace of Spades" {
+		t.Errorf("Expected first card to be Ace of Spaces but got %v", fc)
 	}
 
-	if d[len(d)-1] != "King of Clubs" {
-		t.Errorf("Expected last card to be King of Clubs but got %v", d[len(d)-1])
+	lc := d[len(d)-1]
+	if lc != "King of Clubs" {
+		t.Errorf("Expected last card to be King of Clubs but got %v", lc)
 	}
 }
 
@@ -46,6 +50,14 @@ func TestShuffle(t *testing.T) {
 
 	if d[0] == e[0] {
 		t.Errorf("Expected first card to be random but got %v for both decks", d[0])
+	}
+}
+
+func TestToString(t *testing.T) {
+	d := newDeck()
+	ty := reflect.TypeOf(d.toString())
+	if ty != reflect.TypeOf("") {
+		t.Errorf("Expected deck to be of type string but got %v", ty)
 	}
 }
 
