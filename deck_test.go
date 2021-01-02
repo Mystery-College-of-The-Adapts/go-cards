@@ -17,3 +17,21 @@ func TestNewDeck(t *testing.T) {
 		t.Errorf("Expected last card to be King of Clubs but got %v", d[len(d)-1])
 	}
 }
+
+func TestDeal(t *testing.T) {
+	d := newDeck()
+	draw := 5
+	hand, d := d.deal(draw)
+
+	if len(hand) != draw {
+		t.Errorf("Expected hand length to be 5 but got %v", len(hand))
+	}
+
+	if len(d) != (52 - draw) {
+		t.Errorf("Expected deck length to be 47 but got %v", len(d))
+	}
+}
+
+func TestSaveToDeckAndNewDeckTestFromFile(t *testing.T) {
+
+}
