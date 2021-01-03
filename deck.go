@@ -1,37 +1,53 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"math/rand"
-	"os"
-	"strings"
 	"time"
 )
 
-// create a new type of 'deck'
-//  which is a slice of strings
+type card struct {
+	symbol string
+	suit   string
+	value  int
+}
 
-type deck []string
+type deck []card
 
 func newDeck() deck {
 	cards := deck{}
-	cardSuits := []string{"Spades", "Hearts", "Diamonds", "Clubs"}
-	cardValues := []string{"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"}
+	cardSuits := []string{"♠", "♥", "♦", "♣"}
+	cardSymbolValues := map[string]int{
+		"A":  1,
+		"2":  2,
+		"3":  3,
+		"4":  4,
+		"5":  5,
+		"6":  6,
+		"7":  7,
+		"8":  8,
+		"9":  9,
+		"10": 10,
+		"J":  10,
+		"Q":  10,
+		"K":  10,
+	}
 
 	for _, suit := range cardSuits {
-		for _, value := range cardValues {
-			cards = append(cards, value+" of "+suit)
+		for symbol, value := range cardSymbolValues {
+			c := card{symbol, suit, value}
+			cards = append(cards, c)
 		}
 	}
 
 	return cards
 }
 
-func (d deck) print() {
-	for i, c := range d {
-		fmt.Println(i, c)
-	}
+func (d deck) dealOne() (deck, deck) {
+	return d[:1], d[1:]
+}
+
+func (d deck) dealTwo() (deck, deck) {
+	return d[:2], d[2:]
 }
 
 func (d deck) deal(handSize int) (deck, deck) {
@@ -43,25 +59,26 @@ func (d deck) shuffle() {
 	r := rand.New(s)
 
 	for i := range d {
-		p := r.Intn(len(d) - 1)
-		d[i], d[p] = d[p], d[i]
+		j := r.Intn(len(d) - 1)
+		d[i], d[j] = d[j], d[i]
 	}
 }
 
-func (d deck) toString() string {
-	return strings.Join([]string(d), ",")
-}
+// func (d deck) toString() string {
+// 	c := []card(d)
+// 	return strings.Join([]string(c), ",")
+// }
 
-func (d deck) saveToFile(filename string) error {
-	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
-}
+// func (d deck) saveToFile(filename string) error {
+// 	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+// }
 
-func newDeckFromFile(filename string) deck {
-	bs, err := ioutil.ReadFile(filename)
-	if err != nil {
-		fmt.Println("ERROR:", err)
-		os.Exit(1)
-	}
-	s := strings.Split(string(bs), ",")
-	return deck(s)
-}
+// func newDeckFromFile(filename string) deck {
+// 	bs, err := ioutil.ReadFile(filename)
+// 	if err != nil {
+// 		fmt.Println("ERROR:", err)
+// 		os.Exit(1)
+// 	}
+// 	s := strings.Split(string(bs), ",")
+// 	return deck(s)
+// }
