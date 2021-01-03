@@ -25,11 +25,6 @@ func TestNewDeck(t *testing.T) {
 	}
 }
 
-func TestPrint(t *testing.T) {
-	d := newDeck()
-	d.print()
-}
-
 func TestDeal(t *testing.T) {
 	d := newDeck()
 	draw := 5
