@@ -42,6 +42,12 @@ func newDeck() deck {
 	return cards
 }
 
+func (d deck) print() {
+	for _, c := range d {
+		fmt.Println(c.symbol, c.suit)
+	}
+}
+
 func (d deck) dealOne() (deck, deck) {
 	return d[:1], d[1:]
 }
