@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -68,6 +69,14 @@ func (d deck) shuffle() {
 		j := r.Intn(len(d) - 1)
 		d[i], d[j] = d[j], d[i]
 	}
+}
+
+func (d deck) value() int {
+	v := 0
+	for _, c := range d {
+		v += c.value
+	}
+	return v
 }
 
 // func (d deck) toString() string {
