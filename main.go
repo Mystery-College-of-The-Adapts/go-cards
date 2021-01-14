@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"strings"
-	"time"
 )
 
 func main() {
@@ -44,8 +42,8 @@ func main() {
 	handValue = hand.value()
 	if handValue < blackjack {
 		fmt.Println("You got", handValue)
-		rand.Seed(time.Now().Unix())
-		aiHandValue := rand.Intn(blackjack)
+		aiHand := play(cards)
+		aiHandValue := aiHand.value()
 		fmt.Println("The AI got", aiHandValue)
 		if aiHandValue > handValue {
 			fmt.Println("You loose!")
