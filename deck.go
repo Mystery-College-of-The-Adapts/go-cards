@@ -49,16 +49,19 @@ func (d deck) print() {
 	}
 }
 
-func (d deck) dealOne() (deck, deck) {
-	return d[:1], d[1:]
+func (d *deck) dealOne() deck {
+	*d = (*d)[1:]
+	return (*d)[:1]
 }
 
-func (d deck) dealTwo() (deck, deck) {
-	return d[:2], d[2:]
+func (d *deck) dealTwo() deck {
+	*d = (*d)[2:]
+	return (*d)[:2]
 }
 
-func (d deck) deal(handSize int) (deck, deck) {
-	return d[:handSize], d[handSize:]
+func (d *deck) deal(handSize int) deck {
+	*d = (*d)[handSize:]
+	return (*d)[:handSize]
 }
 
 func (d deck) shuffle() {
