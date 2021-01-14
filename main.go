@@ -9,6 +9,7 @@ import (
 
 func main() {
 	cards := newDeck()
+	blackjack := 21
 
 	n := 1
 	for n < 10 {
@@ -16,32 +17,35 @@ func main() {
 		n++
 	}
 
-	hand, cards := cards.dealTwo()
+	hand := cards.dealTwo()
 	hand.print()
+	handValue := hand.value()
+	fmt.Println("You're at ", handValue)
 
 	fmt.Println("Hit or Stay?")
 	var input string
 	fmt.Scanln(&input)
 	for strings.ToLower(input) == "hit" {
-		newCard, _ := cards.dealOne()
+		newCard := cards.dealOne()
 		hand = append(hand, newCard...)
 		hand.print()
 		handValue := hand.value()
+		fmt.Println("You're at ", handValue)
 		if handValue > 21 {
-			fmt.Println("You went over 21. You lose!")
+			fmt.Printf("You went over %v. You lose!", blackjack)
 			break
-		} else if handValue == 21 {
-			fmt.Println("You got 21. You win!")
+		} else if handValue == blackjack {
+			fmt.Printf("You got %v. You win!", blackjack)
 			break
 		}
 		fmt.Println("Hit or Stay?")
 		fmt.Scanln(&input)
 	}
-	handValue := hand.value()
-	if handValue < 21 {
+	handValue = hand.value()
+	if handValue < blackjack {
 		fmt.Println("You got", handValue)
 		rand.Seed(time.Now().Unix())
-		aiHandValue := rand.Intn(21)
+		aiHandValue := rand.Intn(blackjack)
 		fmt.Println("The AI got", aiHandValue)
 		if aiHandValue > handValue {
 			fmt.Println("You loose!")
